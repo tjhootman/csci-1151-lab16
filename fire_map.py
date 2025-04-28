@@ -6,8 +6,11 @@ import plotly.express as px
 # define the path to csv file
 path = Path('fire_data/world_fires_1_day.csv')
 
-# read the contents of file and split into lines
-lines = path.read_text(encoding='utf-8').splitlines()
+try:
+    # read the contents of file and split into lines
+    lines = path.read_text(encoding='utf-8').splitlines()
+except FileNotFoundError:
+    print(f"Error: The file was not found at {path}")
 
 # create csv reader to iterate over the lines. skip header row
 reader = csv.reader(lines)
