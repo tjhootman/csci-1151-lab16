@@ -61,7 +61,7 @@ fig = px.scatter_geo(lat=lats,
                      lon=lons,
                      title=title,
                      color=brights,
-                     color_continuous_scale='Bluered_r',
+                     color_continuous_scale='Reds_r',
                      labels={'color':'Brightness'},
                      projection='natural earth',
                      custom_data=[lats, lons, dates]
