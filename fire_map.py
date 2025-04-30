@@ -21,7 +21,6 @@ lats = []
 lons = []
 brights = []
 dates = []
-hover_texts = []
 
 # counter for rows and limit for data processing
 row_count = 0
@@ -39,7 +38,6 @@ for row in reader:
         lon = float(row[1])
         bright = float(row[2])
         date = datetime.strptime(row[5], '%Y-%m-%d').date()
-        hover_text = f'{lat}, {lon}/n{date}' # is this needed?
     except ValueError as e:
         print(e)
     else:
@@ -48,7 +46,6 @@ for row in reader:
         lats.append(lat)
         brights.append(bright)
         dates.append(date)
-        hover_texts.append(hover_text)
 
     # increment the row counter
     row_count += 1
@@ -72,8 +69,7 @@ fig.update_traces(
                 marker=dict(size=10,line=dict(width=1,color='White')),
                 selector=dict(mode='markers'),
                 hovertemplate=
-                '(%{customdata[0]}°, ' +
-                '%{customdata[1]}°)<br>' +
+                '(%{customdata[0]:.2f}°, %{customdata[1]:.2f}°)<br>' +
                 '%{customdata[2]}',
                 )
 
