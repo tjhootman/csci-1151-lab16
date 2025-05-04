@@ -60,27 +60,31 @@ class DataVisualizer:
     def __init__(self, title: str = 'Global Fires'):
         self.title = title
 
-# create a geographical scatter plot
-fig = px.scatter_geo(lat=lats,
-                     lon=lons,
-                     title=title,
-                     color=brights,
-                     color_continuous_scale='Reds_r',
-                     labels={'color':'Brightness'},
-                     projection='natural earth',
-                     custom_data=[lats, lons, dates]
-                     )
+    def create_plot(self, lats, lons, brights, dates):
+        # create a geographical scatter plot
+        fig = px.scatter_geo(lat=lats,
+                            lon=lons,
+                            title=self.title,
+                            color=brights,
+                            color_continuous_scale='Reds_r',
+                            labels={'color':'Brightness'},
+                            projection='natural earth',
+                            custom_data=[lats, lons, dates]
+                            )
 
-# update the markers and hover text information
-fig.update_traces(
-                marker=dict(size=10,line=dict(width=1,color='White')),
-                selector=dict(mode='markers'),
-                hovertemplate=
-                '(%{customdata[0]:.2f}°, %{customdata[1]:.2f}°)<br>' +
-                '%{customdata[2]}',
-                )
+        # update the markers and hover text information
+        fig.update_traces(
+                        marker=dict(size=10,line=dict(width=1,color='White')),
+                        selector=dict(mode='markers'),
+                        hovertemplate=
+                        '(%{customdata[0]:.2f}°, %{customdata[1]:.2f}°)<br>' +
+                        '%{customdata[2]}',
+                        )
 
-# show the plot
-fig.show()
+        return fig
+
+    def show_plot(self, fig):
+
+        fig.show()
 
 # additional try-except blocks?
