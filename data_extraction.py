@@ -26,39 +26,39 @@ class DataExtractor:
         reader = csv.reader(lines)
         next(reader)
 
+        # counter for rows
+        row_count = 0
 
+        # iterate over each row in CSV reader
+        for row in reader:
+            # stop processing if maximum rows is reached
+            if row_count >= max_rows:
+                break
 
+            # extract data from specific columns and convert to appropriate types
+            try:
+                lat = float(row[0])
+                lon = float(row[1])
+                bright = float(row[2])
+                date = datetime.strptime(row[5], '%Y-%m-%d').date()
+            except ValueError as e:
+                print(e)
+            else:
+                # append the data the appropriate lists
+                self.lons.append(lon)
+                self.lats.append(lat)
+                self.brights.append(bright)
+                self.dates.append(date)
 
-# counter for rows and limit for data processing
-row_count = 0
-max_rows = 1000
+            # increment the row counter
+            row_count += 1
 
-# iterate over each row in CSV reader
-for row in reader:
-    # stop processing if maximum rows is reached
-    if row_count >= max_rows:
-        break
+        return self.lats, self.lons, self.brights, self.dates
 
-    # extract data from specific columns and convert to appropriate types
-    try:
-        lat = float(row[0])
-        lon = float(row[1])
-        bright = float(row[2])
-        date = datetime.strptime(row[5], '%Y-%m-%d').date()
-    except ValueError as e:
-        print(e)
-    else:
-        # append the data the appropriate lists
-        lons.append(lon)
-        lats.append(lat)
-        brights.append(bright)
-        dates.append(date)
-
-    # increment the row counter
-    row_count += 1
-
-# set the title
-title = 'Global Fires'
+class DataVisualizer:
+    """Visualizes data on a geographical scatter plot."""
+    def __init__(self, title: str = 'Global Fires'):
+        self.title = title
 
 # create a geographical scatter plot
 fig = px.scatter_geo(lat=lats,
