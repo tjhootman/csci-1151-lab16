@@ -1,10 +1,9 @@
+"""Module containing classes for data extraction and data visualization 
+using plotly."""
 from pathlib import Path
 import csv
 from datetime import datetime
 import plotly.express as px
-
-# define the path to csv file
-path = Path('fire_data/world_fires_1_day.csv')
 
 class DataExtractor:
     """Extracts data from a CSV file."""
@@ -16,9 +15,22 @@ class DataExtractor:
         self.dates = []
 
     def extract(self, max_rows: int = 1000):
+        """Extracts the data from a CSV file.
+
+        Args:
+            max_rows (int, optional): The maximum bumber of rows to extract.
+                                        Defaults to 1000.
+
+        Returns:
+            tuple: A tuple containing the four lists: latitudes, longitudes,
+            brightness and dates.
+        
+        Raises:
+            FileNotFoundError: If the specified file_path does not exist.
+        """
         try:
             # read the contents of file and split into lines
-            lines = path.read_text(encoding='utf-8').splitlines()
+            lines = self.file_path.read_text(encoding='utf-8').splitlines()
         except FileNotFoundError:
             print(f"Error: The file was not found at {self.file_path}")
 
@@ -56,11 +68,23 @@ class DataExtractor:
         return self.lats, self.lons, self.brights, self.dates
 
 class DataVisualizer:
-    """Visualizes data on a geographical scatter plot."""
+    """Visualizes data on a geographical scatter plot using Plotly."""
     def __init__(self, title: str = 'Global Fires'):
         self.title = title
 
     def create_plot(self, lats, lons, brights, dates):
+        """Creates a geographical scatter plot of the data using Plotly Express.
+
+        Args:
+            lats (list[float]): A list of latitudes.
+            lons (list[float]): A list of longitudes.
+            brights (list[float]): A list of brightness values.
+            dates (list[datetime.date]): A list of dates.
+
+        Returns:
+            px.scatter_geo: A Plotly Express Figure object representing the 
+            scatter plot.
+        """
         # create a geographical scatter plot
         fig = px.scatter_geo(lat=lats,
                             lon=lons,
@@ -84,7 +108,9 @@ class DataVisualizer:
         return fig
 
     def show_plot(self, fig):
+        """Displays the generated Plotly figure.
 
+        Args:
+            fig (px.scatter_geo): The Plotly Express Figure object to display.
+        """
         fig.show()
-
-# additional try-except blocks?
